@@ -3,18 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "@types/jest": "^27.0.1",
-    "@types/node": "^16.7.13",
-    "@types/react": "^17.0.20",
-    "@types/react-dom": "^17.0.9",
-    "miragejs": "^0.1.43",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "axios": "0.21.0",
+    "miragejs": "0.1.43",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.0",
-    "typescript": "^4.4.2",
+    "react-select": "4.0.0",
+    "styled-components": "^5.3.1",
+    "styled-media-query": "^2.1.2",
+    "uuid": "^8.3.2",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
@@ -40,5 +39,20 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/axios": "^0.14.0",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^12.0.0",
+    "@types/react": "17.0.0",
+    "@types/react-dom": "17.0.0",
+    "@types/react-router-dom": "^5.3.2",
+    "@types/react-select": "4.0.0",
+    "@types/styled-components": "^5.1.15",
+    "@types/uuid": "^8.3.4",
+    "typescript": "4.4.2"
   }
 }
