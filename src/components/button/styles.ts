@@ -21,7 +21,7 @@ const wrapperModifiers = {
 
   withIcon: () => css`
     svg {
-      width: 1.5rem;
+      width: 1rem;
 
       & + span {
         margin-left: 0.8rem;

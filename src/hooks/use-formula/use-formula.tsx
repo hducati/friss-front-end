@@ -1,5 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { api } from "services/api";
+import { createContext, useContext, useState } from "react";
 import { v4 as uuidv4 }from 'uuid';
 import { Formula, FormulaInput, FormulaProviderProps, FormulaContextData } from "./types";
 
@@ -9,11 +8,6 @@ const FormulaContext = createContext<FormulaContextData>(
 
 export function FormulaProvider({ children }: FormulaProviderProps) {
   const [formulas, setFormulas] = useState<Formula[]>([])
-
-  useEffect(() => {
-    api.get('formulas')
-      .then(response => setFormulas(response.data.formulas))
-  }, [])
 
   async function createFormula(formulaInput: FormulaInput) {
     const formula: Formula = {
