@@ -44,9 +44,9 @@ export const Input = styled.input`
 `
 
 export const Label = styled.label`
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: bold;
   color: #030517;
-  cursor: pointer;
 `
 
 export const Error = styled.p`

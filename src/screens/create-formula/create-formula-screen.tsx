@@ -10,6 +10,7 @@ import { useFormula } from "hooks/use-formula/use-formula";
 import { Button } from "components/button/button";
 import { getMakesService } from "services/get-makes/get-makes-service";
 import { OptionType } from "constants/types/option-type";
+import { Spinner } from "components/spinner/spinner";
 import { getModelByMakeName } from "services/get-model-by-make-name/get-model-by-make-name";
 import * as S from './styles'
 
@@ -20,13 +21,18 @@ export const CreateFormulaScreen = () => {
   const [errorMessage, setErrorMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
+  const emptyOption = {
+    value: "",
+    label: ""
+  }
+
   const initialEntries = {
-    makeName: makeNameOptions[0],
-    modelName: modelNameOptions[0],
+    makeName: emptyOption,
+    modelName: emptyOption,
     year: 0,
-    yearComparison: yearComparisonType[1],
-    risk: riskType[0],
-    fuel: fuelType[1]
+    yearComparison: emptyOption,
+    risk: emptyOption,
+    fuel: emptyOption
   }
 
   const [formula, setFormula] = useState({...initialEntries})
@@ -52,13 +58,15 @@ export const CreateFormulaScreen = () => {
       setModelNameOptions([...result])
     }
 
-    fetchData()
+    if (formula.makeName['value']) fetchData()
   }, [formula.makeName])
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
-    if (!formula.risk) return setErrorMessage("Risk is mandatory!")
-    if (!formula.makeName || !formula.modelName || !formula.year || !formula.fuel) {
+    console.log('risk')
+    console.log(formula.risk)
+    if (!formula.risk['value']) return setErrorMessage("Risk is mandatory!")
+    if (!formula.makeName['value'] && !formula.modelName['value'] && !formula.year && !formula.fuel['value']) {
       return setErrorMessage("At least one parameter must be selected (make, model, year, fuel).")
     }
 
@@ -78,61 +86,77 @@ export const CreateFormulaScreen = () => {
   }
 
   const onMakeNameChange = (option: OptionType | null) => {
-    const modelNameEmpty = { value: "", label: "" }
-    setFormula({...formula, makeName: option!, modelName: modelNameEmpty})
+    setFormula({...formula, makeName: option!, modelName: emptyOption})
   }
 
   return (
     <form onSubmit={handleSubmit}>
-        {!isLoading && (
+        {isLoading ? < Spinner /> : (
           <S.FormContainer>
             <S.Wrapper>
               <S.Heading>Create Formula</S.Heading>
               <S.Grid>
-                <Select
-                  value={formula.makeName}
-                  options={makeNameOptions}
-                  onChange={option => onMakeNameChange(option)}
-                  placeholder="Select an option" 
-                />
-                <Select
-                  value={formula.modelName}
-                  options={modelNameOptions}
-                  onChange={option => setFormula({...formula, modelName: option!})}
-                  placeholder="Select an option" 
-                />
-                <Select
-                  value={formula.yearComparison}
-                  options={yearComparisonType}
-                  onChange={option => setFormula({...formula, yearComparison: option!})}
-                  placeholder="Select an option" 
-                />
-                <InputField
-                  type="number"
-                  name="Year"
-                  placeholder="Year"
-                  value={formula.year}
-                  onChange={event => setFormula({...formula, year: Number(event.target.value)})}
-                />
-                <Select
-                  value={formula.fuel}
-                  options={fuelType}
-                  onChange={option => setFormula({...formula, fuel: option!})}
-                  placeholder="Select an option" 
-                />
-                <Select
-                  value={formula.risk}
-                  options={riskType}
-                  onChange={option => setFormula({...formula, risk: option!})}
-                  placeholder="Select an option" 
-                />
+                <S.InputWrapper>
+                  <S.Label>Make name</S.Label>
+                  <Select
+                    value={formula.makeName}
+                    options={makeNameOptions}
+                    onChange={option => onMakeNameChange(option)}
+                    placeholder="Select an option" 
+                  />
+                </S.InputWrapper>
+                <S.InputWrapper>
+                  <S.Label>Model name</S.Label>
+                  <Select
+                    value={formula.modelName}
+                    options={modelNameOptions}
+                    onChange={option => setFormula({...formula, modelName: option!})}
+                    placeholder="Select an option" 
+                  />
+                </S.InputWrapper>
+                <S.InputWrapper>
+                  <S.Label>Year comparison</S.Label>
+                  <Select
+                    value={formula.yearComparison}
+                    options={yearComparisonType}
+                    onChange={option => setFormula({...formula, yearComparison: option!})}
+                    placeholder="Select an option" 
+                  />
+                </S.InputWrapper>
+                <S.InputWrapper>
+                  <S.Label>Year</S.Label>
+                  <InputField
+                    type="number"
+                    name="Year"
+                    placeholder="Year"
+                    value={formula.year}
+                    onChange={event => setFormula({...formula, year: Number(event.target.value)})}
+                  />
+                </S.InputWrapper>
+                <S.InputWrapper>
+                  <S.Label>Fuel</S.Label>
+                  <Select
+                    value={formula.fuel}
+                    options={fuelType}
+                    onChange={option => setFormula({...formula, fuel: option!})}
+                    placeholder="Select an option" 
+                  />
+                </S.InputWrapper>
+                <S.InputWrapper>
+                  <S.Label>Risk</S.Label>
+                  <Select
+                    value={formula.risk}
+                    options={riskType}
+                    onChange={option => setFormula({...formula, risk: option!})}
+                    placeholder="Select an option" 
+                  />
+                </S.InputWrapper>
               </S.Grid>
-            <Button fullWidth>Submit</Button>
+              <Button fullWidth>Submit</Button>
+              {!!errorMessage && <span>{errorMessage}</span>}
             </S.Wrapper>
           </S.FormContainer>
         )}
-       
-      {!!errorMessage && <span>{errorMessage}</span>}
     </form>
   )
 }
