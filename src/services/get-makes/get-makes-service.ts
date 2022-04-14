@@ -9,15 +9,15 @@ interface MakeNameModel {
 
 export const getMakesService =  async () => {
   const response = await axios.get('https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json')  
-  const makeModels = response['data']['Results']
+  const makeNameModels = response['data']['Results']
 
-  const makeNames = getMakeNames(makeModels)
+  const makeNames = getMakeNames(makeNameModels)
 
   return makeNames
 }
 
-const getMakeNames = (makeModels: MakeNameModel[]) => {
-  return makeModels.map((makeModel) => {
+const getMakeNames = (makeNameModels: MakeNameModel[]) => {
+  return makeNameModels.map((makeModel) => {
     const model = { value: makeModel.MakeName, label: makeModel.MakeName} 
 
     return model

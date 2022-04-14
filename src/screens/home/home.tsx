@@ -6,8 +6,12 @@ import { useHistory } from "react-router-dom";
 import * as S from './styles'
 
 export const HomeScreen = () => {
-  const { formulas } = useFormula();
+  const { formulas, deleteFormula } = useFormula();
   const history = useHistory();
+
+  const onRemove = (id: string) => {
+    deleteFormula(id)
+  }
 
   const redirectToCreateNewFormula = () => {
     const path = '/formula'
@@ -20,7 +24,7 @@ export const HomeScreen = () => {
         <S.ButtonWrapper>
         <Button size="small" onClick={redirectToCreateNewFormula}>Create formula</Button>
         </S.ButtonWrapper>
-        <FormulaList formulas={formulas} />
+        <FormulaList formulas={formulas} onRemove={onRemove} />
       </S.Wrapper>
     </Container>
   )

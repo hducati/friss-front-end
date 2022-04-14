@@ -15,11 +15,11 @@ import { getModelByMakeName } from "services/get-model-by-make-name/get-model-by
 import * as S from './styles'
 
 export const CreateFormulaScreen = () => {
+  const [isLoading, setIsLoading] = useState(false)
   const [makeNameOptions, setMakeNameOptions] = useState<OptionType[]>([])
   const [modelNameOptions, setModelNameOptions] = useState<OptionType[]>([])
 
   const [errorMessage, setErrorMessage] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
 
   const emptyOption = {
     value: "",
@@ -42,6 +42,7 @@ export const CreateFormulaScreen = () => {
 
   useEffect(() => {
     setIsLoading(true)
+
     async function fetchData() {
       const makeNameResult = await getMakesService()
       const modelNameResult = await getModelByMakeName(makeNameResult[0].value)
@@ -50,6 +51,7 @@ export const CreateFormulaScreen = () => {
       setIsLoading(false)
     }
     fetchData()
+
   }, [])
 
   useEffect(() => {
@@ -63,8 +65,7 @@ export const CreateFormulaScreen = () => {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
-    console.log('risk')
-    console.log(formula.risk)
+
     if (!formula.risk['value']) return setErrorMessage("Risk is mandatory!")
     if (!formula.makeName['value'] && !formula.modelName['value'] && !formula.year && !formula.fuel['value']) {
       return setErrorMessage("At least one parameter must be selected (make, model, year, fuel).")
@@ -99,6 +100,7 @@ export const CreateFormulaScreen = () => {
                 <S.InputWrapper>
                   <S.Label>Make name</S.Label>
                   <Select
+                    aria-label="select-makeName"
                     value={formula.makeName}
                     options={makeNameOptions}
                     onChange={option => onMakeNameChange(option)}
@@ -108,6 +110,7 @@ export const CreateFormulaScreen = () => {
                 <S.InputWrapper>
                   <S.Label>Model name</S.Label>
                   <Select
+                    aria-label="select-modelName"
                     value={formula.modelName}
                     options={modelNameOptions}
                     onChange={option => setFormula({...formula, modelName: option!})}
@@ -117,6 +120,7 @@ export const CreateFormulaScreen = () => {
                 <S.InputWrapper>
                   <S.Label>Year comparison</S.Label>
                   <Select
+                    aria-label="select-yearComparison"
                     value={formula.yearComparison}
                     options={yearComparisonType}
                     onChange={option => setFormula({...formula, yearComparison: option!})}
@@ -136,6 +140,7 @@ export const CreateFormulaScreen = () => {
                 <S.InputWrapper>
                   <S.Label>Fuel</S.Label>
                   <Select
+                    aria-label="select-fuel"
                     value={formula.fuel}
                     options={fuelType}
                     onChange={option => setFormula({...formula, fuel: option!})}
@@ -145,6 +150,7 @@ export const CreateFormulaScreen = () => {
                 <S.InputWrapper>
                   <S.Label>Risk</S.Label>
                   <Select
+                    aria-label="select-risk"
                     value={formula.risk}
                     options={riskType}
                     onChange={option => setFormula({...formula, risk: option!})}
@@ -153,7 +159,7 @@ export const CreateFormulaScreen = () => {
                 </S.InputWrapper>
               </S.Grid>
               <Button fullWidth>Submit</Button>
-              {!!errorMessage && <span>{errorMessage}</span>}
+              {!!errorMessage && <S.ErrorMessage>{errorMessage}</S.ErrorMessage>}
             </S.Wrapper>
           </S.FormContainer>
         )}

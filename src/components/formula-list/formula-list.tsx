@@ -1,20 +1,14 @@
 import { Button } from "components/button/button";
 import { Formula } from "hooks/use-formula/types";
-import { useFormula } from "hooks/use-formula/use-formula";
 import { MdDelete } from 'react-icons/md'
 import * as S from './styles';
 
 export interface FormulaListProps {
   formulas: Formula[];
+  onRemove: (id: string) => void;
 }
 
-export const FormulaList = ({ formulas }: FormulaListProps) => {
-  const { deleteFormula } = useFormula();
-
-  const onRemove = (id: string) => {
-    deleteFormula(id)
-  }
-
+export const FormulaList = ({ formulas, onRemove }: FormulaListProps) => {
   return (
     <S.Table>
       <thead>
@@ -41,7 +35,11 @@ export const FormulaList = ({ formulas }: FormulaListProps) => {
             <S.TableField>{formula.yearComparisonType}</S.TableField>
             <S.TableField>{formula.fuelType}</S.TableField>
             <S.TableField>
-              <Button onClick={() => onRemove(formula.id)} icon={<MdDelete />} />
+              <Button
+                aria-label={`delete-${formula.id}`}
+                onClick={() => onRemove(formula.id)}
+                icon={<MdDelete />}
+              />
             </S.TableField>
           </S.TableContentRow>
         ))}

@@ -62,3 +62,9 @@ export const Heading = styled.h2`
   font-size: 2rem;
   color: black;
 `
+
+export const ErrorMessage = styled.span`
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #FF0000;
+`
