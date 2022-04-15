@@ -2,6 +2,7 @@
 
 * Install dependencies by using `yarn`
 * Start the project with: `yarn start`
+* Access your local environment: http://localhost:3000/
 
 ## Project
 
