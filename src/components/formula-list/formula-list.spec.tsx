@@ -36,7 +36,7 @@ describe('<FormulaList />', () => {
 
   it("should handle delete event", async () => {
     const onRemove = jest.fn()
-    const toBeCalled = 1
+    const oneTime = 1
     render(<FormulaList formulas={mockFormulas} onRemove={onRemove} />)
 
     const deleteButton = screen.getByRole('button', { name: /delete-dasdgkow00q9d01/i})
@@ -44,6 +44,6 @@ describe('<FormulaList />', () => {
 
     await waitFor(() => deleteButton)
 
-    expect(onRemove).toHaveBeenCalledTimes(toBeCalled)
+    expect(onRemove).toHaveBeenCalledTimes(oneTime)
   })
 })

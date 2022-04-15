@@ -50,14 +50,15 @@ export const CreateFormulaScreen = () => {
       setModelNameOptions([...modelNameResult])
       setIsLoading(false)
     }
-    fetchData()
 
+    fetchData()
   }, [])
 
   useEffect(() => {
     async function fetchData() {
-      const result = await getModelByMakeName(formula.makeName['value'])
-      setModelNameOptions([...result])
+      await getModelByMakeName(formula.makeName['value'])
+        .then((response) => setModelNameOptions([...response]))
+        .catch((error) => setErrorMessage(error))
     }
 
     if (formula.makeName['value']) fetchData()

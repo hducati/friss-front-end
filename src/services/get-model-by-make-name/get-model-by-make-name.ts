@@ -8,14 +8,18 @@ interface ModelName {
 }
 
 export const getModelByMakeName =  async (makeName: string) => {
-  const response = await axios.get(
-    `https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/${makeName.toLowerCase()}?format=json`
-  )  
-  const makeModels = response['data']['Results']
-
-  const modelNames = getModelNames(makeModels)
-
-  return modelNames
+  try {
+    const response = await axios.get(
+      `https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/${makeName.toLowerCase()}?format=json`
+    )  
+    const makeModels = response['data']['Results']
+  
+    const modelNames = getModelNames(makeModels)
+  
+    return modelNames
+  } catch {
+    return [ { value: '', label: '' }]
+  }
 }
 
 const getModelNames = (makeModels: ModelName[]) => {
